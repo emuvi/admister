@@ -1,0 +1,112 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+body {
+  background-color: #e9e9e9;
+  color: black;
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
+h1 {
+  padding: 16px;
+  font-family: serif;
+  font-weight: bold;
+  font-size: 27px;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+h1 img {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+h1 div {
+  display: inline-block;
+}
+
+h2 {
+  font-family: serif;
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+h3 {
+  font-family: sans-serif;
+  font-weight: bolder;
+  font-size: 18px;
+}
+
+input {
+  font-family: sans-serif;
+  font-size: 18px;
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid black;
+  border-radius: 3px;
+  background-color: white;
+  color: black;
+}
+
+select {
+  font-family: sans-serif;
+  font-size: 18px;
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid black;
+  border-radius: 3px;
+  background-color: white;
+  color: black;
+}
+
+button {
+  font-family: sans-serif;
+  font-size: 18px;
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid black;
+  border-radius: 3px;
+  background-color: white;
+  color: black;
+}
+
+a {
+  color: black;
+}
+
+#divLoading {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.divSuccess {
+  font-family: serif;
+  font-size: 18px;
+  padding: 16px;
+  background-color: lightgreen;
+  margin-bottom: 8px;
+}
+
+.divError {
+  font-family: serif;
+  font-size: 18px;
+  padding: 16px;
+  background-color: lightpink;
+}
+
+#divContent {
+  padding: 16px;
+}

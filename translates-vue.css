@@ -1,0 +1,28 @@
+h2 {
+  margin: 12px 0px;
+}
+
+#divNeedTrans {
+  border: 1px solid black;
+}
+
+.divLine {
+  background-color: #d0d0d0;
+  padding: 4px;
+}
+
+.divLine:nth-child(odd) {
+  background-color: #dfdfdf;
+}
+
+.divSeed {
+  width: 90%;
+}
+
+.inputDone {
+  width: 90%;
+}
+
+.divClean {
+  font-size: 0.8rem;
+}

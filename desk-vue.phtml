@@ -1,0 +1,14 @@
+<div id="divContent">
+  <div id="divDesk">
+    <?php while ($row = pg_fetch_array($result)) {?>
+    <div id="divMenu">
+      <a href="<?=$row['link']?>">
+        <img src="./assets/icons/<?=$row['icon']?>" alt="" />
+        <div><?=trans($row['name'])?></div>
+      </a>
+    </div>
+    <?php }?>
+  </div>
+</div>
+<link href="desk-vue.css" rel="stylesheet" />
+<script src="desk-vue.js"></script>

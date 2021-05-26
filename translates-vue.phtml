@@ -1,0 +1,24 @@
+<div id="divContent">
+  <div>
+    <select name="lang" id="lang">
+      <option :value="need_lang" v-for="need_lang in need_langs">{{ need_lang }}</option>
+    </select>
+    <button @click="getNeedTrans()">&#x21B5;</button>
+  </div>
+  <h2><?=trans('To Translate')?></h2>
+  <div id="divNeedTrans">
+    <div v-for="(seed, index) in need_trans" :id="'line' + index" class="divLine">
+      <div>
+        <div :id="'seed' + index" class="divSeed">{{ seed }}</div>
+      </div>
+      <div><input :id="'done' + index" type="text" class="inputDone" /></div>
+      <div class="divClean">
+        <a href="#" @click="lineClean(index)"><?=trans('Clean')?></a>
+        <a href="#" @click="lineRemove(index)"><?=trans('Remove')?></a>
+      </div>
+    </div>
+    <div><input type="button" value="<?=trans('Save')?>" @click="saveTrans()" /></div>
+  </div>
+</div>
+<link href="translates-vue.css" rel="stylesheet" />
+<script src="translates-vue.js"></script>

@@ -1,0 +1,21 @@
+#divDesk {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+#divMenu {
+  margin: 4px;
+  padding: 8px;
+  background-color: #d9d9d9;
+  border: 1px solid #b9b9b9;
+  border-radius: 3px;
+}
+
+#divMenu a {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+#divMenu a img {
+  margin: 4px;
+}
