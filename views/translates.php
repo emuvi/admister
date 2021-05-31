@@ -1,5 +1,7 @@
 <?php
-require_once "com-start.php";
+chdir(__DIR__);
+require_once "com-checker.php";
+checker('Translates', 'translates-vue.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,7 +12,7 @@ require_once "com-start.php";
 
 <body>
   <?php include "com-upper.php";?>
-  <?php include "error-vue.phtml";?>
+  <?php include "translates-vue.phtml";?>
   <?php include "com-under.php";?>
 </body>
 

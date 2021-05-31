@@ -1,6 +1,7 @@
 <?php
+chdir(__DIR__);
 require_once "com-checker.php";
-checker('Translates', 'translates-vue.php');
+checker('Map of Visits', 'map_visits-vue.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +12,7 @@ checker('Translates', 'translates-vue.php');
 
 <body>
   <?php include "com-upper.php";?>
-  <?php include "translates-vue.phtml";?>
+  <?php include "map_visits-vue.phtml";?>
   <?php include "com-under.php";?>
 </body>
 

@@ -1,4 +1,5 @@
 <?php
+chdir(__DIR__);
 require_once "com-start.php";
 
 if (isset($_POST['seed'])) {

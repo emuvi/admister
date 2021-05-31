@@ -1,6 +1,7 @@
 <?php
-require_once "com-checker.php";
-checker('Map of Visits', 'map_visits-vue.php');
+chdir(__DIR__);
+require_once "com-start.php";
+$am_title = trans('Entrance');
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +12,7 @@ checker('Map of Visits', 'map_visits-vue.php');
 
 <body>
   <?php include "com-upper.php";?>
-  <?php include "map_visits-vue.phtml";?>
+  <?php include "enter-vue.phtml";?>
   <?php include "com-under.php";?>
 </body>
 

@@ -1,7 +1,8 @@
 <?php
-require_once "com-start.php";
+chdir(__DIR__);
+require_once "../common.php";
 $_SESSION['am_log'] = 'no';
-require_once "com-linker.php";
+require_once "../dblink.php";
 
 if (!isset($_POST['name']) || $_POST['name'] == ""
     || !isset($_POST['pass']) || $_POST['pass'] == "") {
@@ -10,11 +11,11 @@ if (!isset($_POST['name']) || $_POST['name'] == ""
     die();
 }
 
-$result = @pg_query_params($linker,
+$result = @pg_query_params($dblink,
     "SELECT id, bus FROM users WHERE name LIKE $1 AND epwd LIKE md5($2)",
     array($_POST['name'], $_POST['pass']));
 if (!$result) {
-    $am_msg_err = trans(pg_last_error($linker));
+    $am_msg_err = trans(pg_last_error($dblink));
     include "enter-vue.php";
     die();
 }

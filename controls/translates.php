@@ -1,10 +1,11 @@
 <?php
+chdir(__DIR__);
 require_once "com-checker.php";
 checker('Translate', 'translate-vue.php');
 require_once "com-linker.php";
 
 if (!isset($_POST['action'])) {
-  errDie("You must inform the action.");
+  err_die("You must inform the action.");
 }
 
 switch ($_POST['action']) {
@@ -19,22 +20,22 @@ case 'removeNeed':removeNeed();
 }
 
 function getNeedLangs() {
-  global $linker;
+  global $dblink;
   $data = array();
   $query = "SELECT DISTINCT(lang) FROM translates WHERE done IS NULL";
-  $result = @pg_query($linker, $query);
+  $result = @pg_query($dblink, $query);
   if ($result) {
     while ($row = pg_fetch_array($result)) {
       array_push($data, $row['lang']);
     }
-    okData($data);
+    ok_data($data);
   } else {
-    errDie(pg_last_error($linker));
+    err_die(pg_last_error($dblink));
   }
 }
 
 function getNeedTrans() {
-  global $linker;
+  global $dblink;
   $data = array();
   $query = <<<SQL
       SELECT seed FROM translates
@@ -42,39 +43,39 @@ function getNeedTrans() {
       ORDER BY random() LIMIT 3
       SQL;
   $params = array($_POST['language']);
-  $result = @pg_query_params($linker, $query, $params);
+  $result = @pg_query_params($dblink, $query, $params);
   if ($result) {
     while ($row = pg_fetch_array($result)) {
       array_push($data, $row['seed']);
     }
-    okData($data);
+    ok_data($data);
   } else {
-    errDie(pg_last_error($linker));
+    err_die(pg_last_error($dblink));
   }
 }
 
 function saveTrans() {
-  global $linker;
+  global $dblink;
   $data = array();
   $query = "UPDATE translates SET done = $3 WHERE lang = $1 AND seed = $2";
   $params = array($_POST['lang'], $_POST['seed'], $_POST['done']);
-  $result = @pg_query_params($linker, $query, $params);
+  $result = @pg_query_params($dblink, $query, $params);
   if ($result) {
-    okEcho("Translations saved successfully.");
+    ok_echo("Translations saved successfully.");
   } else {
-    errDie(pg_last_error($linker));
+    err_die(pg_last_error($dblink));
   }
 }
 
 function removeNeed() {
-  global $linker;
+  global $dblink;
   $data = array();
   $query = "DELETE FROM translates WHERE lang = $1 AND seed = $2";
   $params = array($_POST['lang'], $_POST['seed']);
-  $result = @pg_query_params($linker, $query, $params);
+  $result = @pg_query_params($dblink, $query, $params);
   if ($result) {
-    okEcho("Translation needed removed successfully.");
+    ok_echo("Translation needed removed successfully.");
   } else {
-    errDie(pg_last_error($linker));
+    err_die(pg_last_error($dblink));
   }
 }

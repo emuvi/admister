@@ -1,4 +1,5 @@
 <?php
+chdir(__DIR__);
 require_once "com-checker.php";
 checker('Map of Visits', 'map_visits-vue.php');
 require_once "com-linker.php";
@@ -32,9 +33,9 @@ EOQ;
 $params = array($_SESSION['am_bus'], $_SESSION['am_usr'], $_POST['code'],
     $_POST['name'], $_POST['phone'], $_POST['address'],
     $_POST['contact'], $_POST['notes']);
-$result = @pg_query_params($linker, $query, $params);
+$result = @pg_query_params($dblink, $query, $params);
 if (!$result) {
-    $am_msg_err = trans(pg_last_error($linker));
+    $am_msg_err = trans(pg_last_error($dblink));
 } else {
     $am_msg_suc = trans("Visit to %s registered.", $_POST['name']);
 }

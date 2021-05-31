@@ -1,6 +1,6 @@
 <?php
+chdir(__DIR__);
 require_once "com-start.php";
-$am_title = trans('Entrance');
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,7 @@ $am_title = trans('Entrance');
 
 <body>
   <?php include "com-upper.php";?>
-  <?php include "enter-vue.phtml";?>
+  <?php include "error-vue.phtml";?>
   <?php include "com-under.php";?>
 </body>
 
