@@ -1,42 +1,29 @@
 <?php
+
 chdir(__DIR__);
 require_once "../common.php";
-$_SESSION['am_log'] = 'no';
-require_once "../dblink.php";
+$_SESSION['am_logged'] = 'no';
 
-if (!isset($_POST['name']) || $_POST['name'] == ""
-    || !isset($_POST['pass']) || $_POST['pass'] == "") {
-    $am_msg_err = trans("You must inform the name and pass.");
-    include "enter-vue.php";
-    die();
+if (!has_param('name') || !has_param('pass')) {
+  err_die("You must inform the name and pass.");
 }
 
-$result = @pg_query_params($dblink,
-    "SELECT id, bus FROM users WHERE name LIKE $1 AND epwd LIKE md5($2)",
-    array($_POST['name'], $_POST['pass']));
-if (!$result) {
-    $am_msg_err = trans(pg_last_error($dblink));
-    include "enter-vue.php";
-    die();
+$sql = 'SELECT id, bus FROM users WHERE name LIKE $1 AND epwd LIKE md5($2)';
+$data = must_fetch($sql, param('name'), param('pass'));
+if (count($data) == 0) {
+  err_die("Could not find your user or pass.");
 }
 
-$row = @pg_fetch_array($result);
-if (!$row) {
-    $am_msg_err = trans("Could not find your user.");
-    include "enter-vue.php";
-    die();
-}
-
-$_SESSION['am_log'] = 'yes';
-$_SESSION['am_bus'] = $row['bus'];
-$_SESSION['am_usr'] = $row['id'];
-$_SESSION['am_usr_name'] = $_POST['name'];
+$_SESSION['am_logged'] = 'yes';
+$_SESSION['am_bus'] = $data[0]['bus'];
+$_SESSION['am_usr_id'] = $data[0]['id'];
+$_SESSION['am_usr_name'] = param('name');
 
 if (isset($_SESSION['redirect'])) {
-    $to_point = $_SESSION['redirect'];
-    unset($_SESSION['redirect']);
-    header("Location: " . $to_point);
-} else {
-    header("Location: desk-vue.php");
+  $am_to_point = $_SESSION['redirect'];
+  unset($_SESSION['redirect']);
+} else if (!isset($am_to_point)) {
+  $am_to_point = 'desk.php';
 }
+header("Location: " . $am_to_point);
 die();

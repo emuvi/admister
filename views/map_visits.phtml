@@ -1,15 +1,13 @@
 <div id="divContent">
-  <input type="text" v-model="code" size="8" placeholder="<?=trans('Code')?>" />
+  <input type="text" v-model="code" size="8" placeholder="<?= trans('Code') ?>" />
   <button @click="getByCode()">&#x21B5;</button><br />
-  <input type="text" v-model="name" size="12" placeholder="<?=trans('Name')?>" /><br />
-  <input type="text" v-model="phone" size="12" placeholder="<?=trans('Phone')?>" /><br />
-  <input type="text" v-model="address" size="18" placeholder="<?=trans('Address')?>" />
+  <input type="text" v-model="name" size="12" placeholder="<?= trans('Name') ?>" /><br />
+  <input type="text" v-model="phone" size="12" placeholder="<?= trans('Phone') ?>" /><br />
+  <input type="text" v-model="address" size="18" placeholder="<?= trans('Address') ?>" />
   <button @click="getAddress()">&#171;</button><br />
   <input type="text" v-model="contact" size="12"
-    placeholder="<?=trans('Contact')?>" /><br />
-  <input type="text" v-model="notes" size="18" placeholder="<?=trans('Notes')?>" /><br />
-  <button><?=trans('Save');?></button>
-  <button><?=trans('Search');?></button>
+         placeholder="<?= trans('Contact') ?>" /><br />
+  <input type="text" v-model="notes" size="18" placeholder="<?= trans('Notes') ?>" /><br />
+  <button><?= trans('Save'); ?></button>
+  <button><?= trans('Search'); ?></button>
 </div>
-<link href="map_visits-vue.css" rel="stylesheet" />
-<script src="map_visits-vue.js"></script>

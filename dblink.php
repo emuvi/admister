@@ -8,7 +8,7 @@ if (!$dblink) {
   err_die("Could not connect to the database.");
 }
 
-function query($sql, ...$params) {
+function must_query($sql, ...$params) {
   global $dblink;
   $result = NULL;
   if (sizeof($params) == 0) {
@@ -19,18 +19,24 @@ function query($sql, ...$params) {
   if (!$result) {
     err_die(pg_last_error($dblink));
   }
+  return $result;
 }
 
-function query_lazy($sql, ...$params) {
-  global $dblink;
+function lazy_query($sql, ...$params) {
+  global $dblink, $am_msg_err;
+  $result = NULL;
   if (sizeof($params) == 0) {
-    pg_query($dblink, $sql);
+    $result = pg_query($dblink, $sql);
   } else {
-    pg_query_params($dblink, $sql, array(...$params));
+    $result = pg_query_params($dblink, $sql, array(...$params));
   }
+  if (!$result) {
+    $am_msg_err = pg_last_error($dblink);
+  }
+  return $result;
 }
 
-function query_fetch($sql, ...$params) {
+function must_fetch($sql, ...$params) {
   global $dblink;
   $result = NULL;
   if (sizeof($params) == 0) {
@@ -48,8 +54,8 @@ function query_fetch($sql, ...$params) {
   return $data;
 }
 
-function query_fetch_lazy($sql, ...$params) {
-  global $dblink;
+function lazy_fetch($sql, ...$params) {
+  global $dblink, $am_msg_err;
   $result = NULL;
   if (sizeof($params) == 0) {
     $result = pg_query($dblink, $sql);
@@ -58,10 +64,11 @@ function query_fetch_lazy($sql, ...$params) {
   }
   $data = array();
   if (!$result) {
-    return $data;
-  }
-  while ($row = pg_fetch_array($result)) {
-    array_push($data, $row);
+    $am_msg_err = pg_last_error($dblink);
+  } else {
+    while ($row = pg_fetch_array($result)) {
+      array_push($data, $row);
+    }
   }
   return $data;
 }

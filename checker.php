@@ -19,7 +19,7 @@ function checker($title, $end_point) {
     } else {
       $_SESSION['redirect'] = $am_end_point . ".php";
     }
-    include "./views/enter.php";
+    include "./enter.php";
     die();
   }
 }

@@ -12,6 +12,11 @@ if ($am_params == NULL || count($am_params) == 0) {
   $am_params = json_decode(file_get_contents("php://input"), true);
 }
 
+function has_param($name) {
+  global $am_params;
+  return isset($am_params[$name]);
+}
+
 function param($name) {
   global $am_params;
   return $am_params[$name];
@@ -19,7 +24,7 @@ function param($name) {
 
 function trans($format, ...$params) {
   $sql_select = 'SELECT done FROM translates WHERE lang LIKE $1 AND seed LIKE $2';
-  $data = query_fetch($sql_select, 'ptbr', $format);
+  $data = must_fetch($sql_select, 'ptbr', $format);
   $translated = NULL;
   if ($data) {
     $translated = $data[0]['done'];
@@ -27,7 +32,7 @@ function trans($format, ...$params) {
   if (!$translated) {
     $translated = $format;
     $sql_insert = 'INSERT INTO translates (lang, seed) VALUES ($1, $2)';
-    query_lazy($sql_insert, 'ptbr', $format);
+    lazy_query($sql_insert, 'ptbr', $format);
   }
   return sprintf($translated, ...$params);
 }
