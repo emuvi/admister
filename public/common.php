@@ -81,7 +81,7 @@ function must_query($sql, ...$params) {
   if (sizeof($params) == 0) {
     $result = pg_query($am_dblink, $sql);
   } else {
-    $result = pg_query_params($am_dblink, $sql, array(...$params));
+    $result = pg_query_params($am_dblink, $sql, $params);
   }
   if (!$result) {
     err_die(pg_last_error($am_dblink));
@@ -95,7 +95,7 @@ function lazy_query($sql, ...$params) {
   if (sizeof($params) == 0) {
     $result = pg_query($am_dblink, $sql);
   } else {
-    $result = pg_query_params($am_dblink, $sql, array(...$params));
+    $result = pg_query_params($am_dblink, $sql, $params);
   }
   if (!$result) {
     $am_msg_err = pg_last_error($am_dblink);
@@ -109,7 +109,7 @@ function must_fetch($sql, ...$params) {
   if (sizeof($params) == 0) {
     $result = pg_query($am_dblink, $sql);
   } else {
-    $result = pg_query_params($am_dblink, $sql, array(...$params));
+    $result = pg_query_params($am_dblink, $sql, $params);
   }
   if (!$result) {
     err_die(pg_last_error($am_dblink));
@@ -127,7 +127,7 @@ function lazy_fetch($sql, ...$params) {
   if (sizeof($params) == 0) {
     $result = pg_query($am_dblink, $sql);
   } else {
-    $result = pg_query_params($am_dblink, $sql, array(...$params));
+    $result = pg_query_params($am_dblink, $sql, $params);
   }
   $data = array();
   if (!$result) {

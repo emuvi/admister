@@ -11,7 +11,7 @@ function query($sql, ...$params) {
   if (sizeof($params) == 0) {
     $result = pg_query($db_link, $sql);
   } else {
-    $result = pg_query_params($db_link, $sql, array(...$params));
+    $result = pg_query_params($db_link, $sql, $params);
   }
   if (!$result) {
     $msg_err = pg_last_error($db_link);
@@ -25,7 +25,7 @@ function fetch($sql, ...$params) {
   if (sizeof($params) == 0) {
     $result = pg_query($db_link, $sql);
   } else {
-    $result = pg_query_params($db_link, $sql, array(...$params));
+    $result = pg_query_params($db_link, $sql, $params);
   }
   $data = array();
   if (!$result) {
