@@ -33,9 +33,9 @@ EOQ;
 $params = array($_SESSION['am_bus'], $_SESSION['am_usr'], $_POST['code'],
     $_POST['name'], $_POST['phone'], $_POST['address'],
     $_POST['contact'], $_POST['notes']);
-$result = @pg_query_params($dblink, $query, $params);
+$result = @pg_query_params($am_dblink, $query, $params);
 if (!$result) {
-    $am_msg_err = trans(pg_last_error($dblink));
+    $am_msg_err = trans(pg_last_error($am_dblink));
 } else {
     $am_msg_suc = trans("Visit to %s registered.", $_POST['name']);
 }
