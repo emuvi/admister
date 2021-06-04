@@ -70,7 +70,7 @@ function err_die($message) {
 
 // Database functions
 
-$am_dblink = pg_connect($_SERVER['CONN_ADMISTER']);
+$am_dblink = pg_connect(filter_input(INPUT_SERVER, 'CONN_ADMISTER'));
 if (!$am_dblink) {
   err_die("Could not connect to the database.");
 }
