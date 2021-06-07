@@ -6,12 +6,20 @@
 <?php
 echo '<div id="divMessages">';
 if (isset($am_msg_err)) {
-  $am_msg_err_trans = trans($am_msg_err);
-  echo ("<div class='divError'><button>X</button> $am_msg_err_trans</div>");
+  echo ("<div class='divError'>");
+  echo ("<button onclick='removeParent(this)'>X</button>");
+  echo ("<span>");
+  echo (trans($am_msg_err));
+  echo ("</span>");
+  echo ("</div>");
 }
 if (isset($am_msg_suc)) {
-  $am_msg_suc_trans = trans($am_msg_suc);
-  echo ("<div class='divSuccess'><button>X</button> $am_msg_suc_trans</div>");
+  echo ("<div class='divSuccess'>");
+  echo ("<button onclick='removeParent(this)'>X</button>");
+  echo ("<span>");
+  echo (trans($am_msg_suc));
+  echo ("</span>");
+  echo ("</div>");
 }
 echo '</div>';
 ?>

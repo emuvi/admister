@@ -1,14 +1,13 @@
 <?php
 
-chdir(__DIR__);
 require_once "./common.php";
 
-if (isset($am_params['seed'])) {
+if (!empty_param('seed')) {
   header('Content-Type: application/json');
-  if (isset($am_params['params'])) {
-    echo json_encode(trans($am_params['seed'], ...$am_params['params']));
+  if (has_param('params')) {
+    echo json_encode(trans(param('seed'), ...param('params')));
   } else {
-    echo json_encode(trans($am_params['seed']));
+    echo json_encode(trans(param('seed')));
   }
 } else {
   err_die("You must inform the seed for the translation.");
