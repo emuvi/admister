@@ -1,17 +1,24 @@
 <?php
 
-chdir(__DIR__);
-require_once "../common.php";
+require_once "./common.php";
 $_SESSION['am_logged'] = 'no';
 
-if (!has_param('name') || !has_param('pass')) {
-  err_die("You must inform the name and pass.");
+if (empty_param('name') || empty_param('pass')) {
+  $am_msg_err = "You must inform the name and pass.";
+  include "./enter.php";
+  die();
 }
 
 $sql = 'SELECT id, bus FROM users WHERE name LIKE $1 AND epwd LIKE md5($2)';
-$data = must_fetch($sql, param('name'), param('pass'));
+$data = lazy_fetch($sql, param('name'), param('pass'));
+if ($data == NULL) {
+  include "./enter.php";
+  die();
+}
 if (count($data) == 0) {
-  err_die("Could not find your user or pass.");
+  $am_msg_err = "Could not find your user or pass.";
+  include "./enter.php";
+  die();
 }
 
 $_SESSION['am_logged'] = 'yes';

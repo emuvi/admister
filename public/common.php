@@ -12,14 +12,19 @@ if ($am_params == NULL || count($am_params) == 0) {
   $am_params = json_decode(file_get_contents("php://input"), true);
 }
 
+function param($name) {
+  global $am_params;
+  return $am_params[$name];
+}
+
 function has_param($name) {
   global $am_params;
   return isset($am_params[$name]);
 }
 
-function param($name) {
+function empty_param($name) {
   global $am_params;
-  return $am_params[$name];
+  return empty($am_params[$name]);
 }
 
 // Response functions
@@ -70,7 +75,7 @@ function err_die($message) {
 
 // Database functions
 
-$am_dblink = pg_connect(filter_input(INPUT_SERVER, 'CONN_ADMISTER'));
+$am_dblink = pg_connect(getenv('CONN_ADMISTER'));
 if (!$am_dblink) {
   err_die("Could not connect to the database.");
 }
@@ -129,13 +134,13 @@ function lazy_fetch($sql, ...$params) {
   } else {
     $result = pg_query_params($am_dblink, $sql, $params);
   }
-  $data = array();
   if (!$result) {
     $am_msg_err = pg_last_error($am_dblink);
-  } else {
-    while ($row = pg_fetch_array($result)) {
-      array_push($data, $row);
-    }
+    return NULL;
+  }
+  $data = array();
+  while ($row = pg_fetch_array($result)) {
+    array_push($data, $row);
   }
   return $data;
 }
@@ -146,16 +151,17 @@ function trans($format, ...$params) {
   global $am_dblink;
   $translated = $format;
   if ($am_dblink) {
-    $sql_select = 'SELECT done FROM translates WHERE lang LIKE $1 AND seed LIKE $2';
-    $data = must_fetch($sql_select, 'ptbr', $format);
     $translated = NULL;
-    if ($data) {
-      $translated = $data[0]['done'];
+    $sql_select = 'SELECT done FROM translates WHERE lang LIKE $1 AND seed LIKE $2';
+    $result = pg_query_params($am_dblink, $sql_select, array('ptbr', $format));
+    if ($result && $row = pg_fetch_array($result)) {
+      $translated = $row['done'];
+    } else {
+      $sql_insert = 'INSERT INTO translates (lang, seed) VALUES ($1, $2)';
+      pg_query_params($am_dblink, $sql_insert, array('ptbr', $format));
     }
     if (!$translated) {
       $translated = $format;
-      $sql_insert = 'INSERT INTO translates (lang, seed) VALUES ($1, $2)';
-      lazy_query($sql_insert, 'ptbr', $format);
     }
   }
   return sprintf($translated, ...$params);

@@ -6,10 +6,12 @@
 <?php
 echo '<div id="divMessages">';
 if (isset($am_msg_err)) {
-  echo ("<div class='divError'><button>X</button> $am_msg_err</div>");
+  $am_msg_err_trans = trans($am_msg_err);
+  echo ("<div class='divError'><button>X</button> $am_msg_err_trans</div>");
 }
 if (isset($am_msg_suc)) {
-  echo ("<div class='divSuccess'><button>X</button> $am_msg_suc</div>");
+  $am_msg_suc_trans = trans($am_msg_suc);
+  echo ("<div class='divSuccess'><button>X</button> $am_msg_suc_trans</div>");
 }
 echo '</div>';
 ?>

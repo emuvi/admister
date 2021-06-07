@@ -1,4 +1,5 @@
 <?php
+
 chdir(__DIR__);
 require_once "com-checker.php";
 checker('Translate', 'translate-vue.php');
@@ -9,14 +10,14 @@ if (!isset($_POST['action'])) {
 }
 
 switch ($_POST['action']) {
-case 'getNeedLangs':getNeedLangs();
-  break;
-case 'getNeedTrans':getNeedTrans();
-  break;
-case 'saveTrans':saveTrans();
-  break;
-case 'removeNeed':removeNeed();
-  break;
+  case 'getNeedLangs':getNeedLangs();
+    break;
+  case 'getNeedTrans':getNeedTrans();
+    break;
+  case 'saveTrans':saveTrans();
+    break;
+  case 'removeNeed':removeNeed();
+    break;
 }
 
 function getNeedLangs() {
@@ -43,7 +44,7 @@ function getNeedTrans() {
       ORDER BY random() LIMIT 3
       SQL;
   $params = array($_POST['language']);
-  $result = @pg_query_params($am_dblink, $query, $params);
+  $result = pg_query_params($am_dblink, $query, $params);
   if ($result) {
     while ($row = pg_fetch_array($result)) {
       array_push($data, $row['seed']);

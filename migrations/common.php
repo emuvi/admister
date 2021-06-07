@@ -1,6 +1,6 @@
 <?php
 
-$db_link = pg_connect($_SERVER['CONN_ADMISTER']);
+$db_link = pg_connect(getenv('CONN_ADMISTER'));
 if (!$db_link) {
   die("Could not connect to the database.");
 }

@@ -1,4 +1,4 @@
 <?php
 
 require_once "./common.php";
-require_once './constrols/' . param('mod') . '.php';
+require_once './controls/mod-' . param('mod') . '.php';
