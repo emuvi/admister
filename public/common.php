@@ -27,7 +27,47 @@ function empty_param($name) {
   return empty($am_params[$name]);
 }
 
-// Response functions
+// Translate functions
+
+function trans($format, ...$params) {
+  global $am_dblink;
+  $translated = $format;
+  if ($am_dblink) {
+    $translated = NULL;
+    $sql_select = 'SELECT done FROM translates WHERE lang LIKE $1 AND seed LIKE $2';
+    $result = pg_query_params($am_dblink, $sql_select, array('ptbr', $format));
+    if ($result && $row = pg_fetch_array($result)) {
+      $translated = $row['done'];
+    } else {
+      $sql_insert = 'INSERT INTO translates (lang, seed) VALUES ($1, $2)';
+      pg_query_params($am_dblink, $sql_insert, array('ptbr', $format));
+    }
+    if (!$translated) {
+      $translated = $format;
+    }
+  }
+  return sprintf($translated, ...$params);
+}
+
+// View Response functions
+
+function set_success($message) {
+  global $am_msg_suc;
+  $am_msg_suc = trans($message);
+}
+
+function set_error($message) {
+  global $am_msg_err;
+  $am_msg_err = trans($message);
+}
+
+function inc_err_die($message) {
+  set_error($message);
+  include './error.php';
+  die();
+}
+
+// API Response functions
 
 function ok_data($data) {
   http_response_code(200);
@@ -143,28 +183,6 @@ function lazy_fetch($sql, ...$params) {
     array_push($data, $row);
   }
   return $data;
-}
-
-// Translate functions
-
-function trans($format, ...$params) {
-  global $am_dblink;
-  $translated = $format;
-  if ($am_dblink) {
-    $translated = NULL;
-    $sql_select = 'SELECT done FROM translates WHERE lang LIKE $1 AND seed LIKE $2';
-    $result = pg_query_params($am_dblink, $sql_select, array('ptbr', $format));
-    if ($result && $row = pg_fetch_array($result)) {
-      $translated = $row['done'];
-    } else {
-      $sql_insert = 'INSERT INTO translates (lang, seed) VALUES ($1, $2)';
-      pg_query_params($am_dblink, $sql_insert, array('ptbr', $format));
-    }
-    if (!$translated) {
-      $translated = $format;
-    }
-  }
-  return sprintf($translated, ...$params);
 }
 
 // Security functions
