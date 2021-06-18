@@ -22,3 +22,5 @@ if (!file_exists('./controls/mod-' . param('mod') . '.php')) {
 
 require_once './controls/mod-' . param('mod') . '.php';
 
+
+

@@ -1,6 +1,5 @@
 <?php
 
-chdir(__DIR__);
 require_once "com-checker.php";
 checker('Translate', 'translate-vue.php');
 require_once "com-linker.php";

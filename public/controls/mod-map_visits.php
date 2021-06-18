@@ -1,5 +1,5 @@
 <?php
-chdir(__DIR__);
+
 require_once "com-checker.php";
 checker('Map of Visits', 'map_visits-vue.php');
 require_once "com-linker.php";
