@@ -2,7 +2,7 @@
 
 require_once './common.php';
 
-//! Creates the table to keep track of the migrations already done in the database.
+/** Creates the table to keep track of the migrations already done in the database. */
 function migrate_start()
 {
     if (!query("CREATE TABLE IF NOT EXISTS migrations ( "
@@ -14,7 +14,7 @@ function migrate_start()
     }
 }
 
-//! Drops the table that keeps track of the migrations already done in the database.
+/** Drops the table that keeps track of the migrations already done in the database. */
 function migrate_stop()
 {
     if (!query("DROP TABLE IF EXISTS migrations")) {
@@ -22,7 +22,7 @@ function migrate_stop()
     }
 }
 
-//! Parses the commad line parameters and call the respective functions.
+/** Parses the commad line parameters and call the respective functions. */
 function migrate_run()
 {
     global $argc, $argv;
@@ -52,7 +52,7 @@ function migrate_run()
     print("Migrations finished!\n");
 }
 
-//! Checks if the execution of this script comes from the command line.
+/** Checks if the execution of this script comes from the command line. */
 function is_cli()
 {
     if (defined('STDIN')) {

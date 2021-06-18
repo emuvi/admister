@@ -2,46 +2,52 @@
 
 $db_link = pg_connect(getenv('CONN_ADMISTER'));
 if (!$db_link) {
-  die("Could not connect to the database.");
+    die("Could not connect to the database.");
 }
 
-function query($sql, ...$params) {
-  global $db_link, $msg_err;
-  $result = NULL;
-  if (sizeof($params) == 0) {
-    $result = pg_query($db_link, $sql);
-  } else {
-    $result = pg_query_params($db_link, $sql, $params);
-  }
-  if (!$result) {
-    $msg_err = pg_last_error($db_link);
-  }
-  return $result;
-}
-
-function fetch($sql, ...$params) {
-  global $db_link, $msg_err;
-  $result = NULL;
-  if (sizeof($params) == 0) {
-    $result = pg_query($db_link, $sql);
-  } else {
-    $result = pg_query_params($db_link, $sql, $params);
-  }
-  $data = array();
-  if (!$result) {
-    $msg_err = pg_last_error($db_link);
-  } else {
-    while ($row = pg_fetch_array($result)) {
-      array_push($data, $row);
+/** Executes a SQL query on the AdMister database. */
+function query($sql, ...$params)
+{
+    global $db_link, $msg_err;
+    $result = NULL;
+    if (sizeof($params) == 0) {
+        $result = pg_query($db_link, $sql);
+    } else {
+        $result = pg_query_params($db_link, $sql, $params);
     }
-  }
-  return $data;
+    if (!$result) {
+        $msg_err = pg_last_error($db_link);
+    }
+    return $result;
 }
 
-function fetch_once($default, $sql, ...$params) {
-  $data = fetch($sql, ...$params);
-  if ($data && $data[0] && $data[0][0]) {
-    return $data[0][0];
-  }
-  return $default;
+/** Returns an array with all the results from the sql query. */
+function fetch($sql, ...$params)
+{
+    global $db_link, $msg_err;
+    $result = NULL;
+    if (sizeof($params) == 0) {
+        $result = pg_query($db_link, $sql);
+    } else {
+        $result = pg_query_params($db_link, $sql, $params);
+    }
+    $data = array();
+    if (!$result) {
+        $msg_err = pg_last_error($db_link);
+    } else {
+        while ($row = pg_fetch_array($result)) {
+            array_push($data, $row);
+        }
+    }
+    return $data;
+}
+
+/** Returns the value of the first row and column ou the default. */
+function fetch_once($default, $sql, ...$params)
+{
+    $data = fetch($sql, ...$params);
+    if ($data && $data[0] && $data[0][0]) {
+        return $data[0][0];
+    }
+    return $default;
 }
