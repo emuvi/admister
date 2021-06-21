@@ -5,7 +5,7 @@ var vue = new Vue({
     need_langs: [],
     need_trans: [],
   },
-  mounted: function () {
+  mounted: function() {
     axios
       .post("translates-wrk.php", { action: "getNeedLangs" })
       .then((res) => {
@@ -16,7 +16,7 @@ var vue = new Vue({
       });
   },
   methods: {
-    getNeedTrans: function () {
+    getNeedTrans: function() {
       const valLang = document.getElementById("lang").value;
       if (!valLang) {
         return;
@@ -37,7 +37,7 @@ var vue = new Vue({
         });
       this.selected_lang = valLang;
     },
-    saveTrans: function () {
+    saveTrans: function() {
       const valLang = this.selected_lang;
       if (!valLang) {
         return;
@@ -67,10 +67,10 @@ var vue = new Vue({
       }
       this.getNeedTrans();
     },
-    lineClean: function (index) {
+    lineClean: function(index) {
       document.getElementById("done" + index).value = "";
     },
-    lineRemove: function (index) {
+    lineRemove: function(index) {
       const valLang = this.selected_lang;
       if (!valLang) {
         return;

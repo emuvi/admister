@@ -49,7 +49,7 @@ function migrate_run()
                 break;
         }
     }
-    print("Migrations finished!\n");
+    echo "Migrations finished!\n";
 }
 
 /** Checks if the execution of this script comes from the command line. */
