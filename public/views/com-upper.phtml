@@ -1,25 +1,25 @@
 <div id="divLoading"><img src="./assets/loading.gif" alt=""></div>
 <h1 id="mainHeader">
-  <a href="./desk-vue.php"><img src="./assets/admister.png" alt="AdMister"></a>
-  <div><?= $am_title ?></div>
+    <a href="./desk-vue.php"><img src="./assets/admister.png" alt="AdMister"></a>
+    <div><?= $am_title ?></div>
 </h1>
 <?php
 echo '<div id="divMessages">';
 if (isset($am_msg_err)) {
-  echo ("<div class='divError'>");
-  echo ("<button onclick='removeParent(this)'>X</button>");
-  echo ("<span>");
-  echo (trans($am_msg_err));
-  echo ("</span>");
-  echo ("</div>");
+    echo ("<div class='divError'>");
+    echo ("<button onclick='removeParent(this)'>X</button>");
+    echo ("<span>");
+    echo (trans($am_msg_err));
+    echo ("</span>");
+    echo ("</div>");
 }
 if (isset($am_msg_suc)) {
-  echo ("<div class='divSuccess'>");
-  echo ("<button onclick='removeParent(this)'>X</button>");
-  echo ("<span>");
-  echo (trans($am_msg_suc));
-  echo ("</span>");
-  echo ("</div>");
+    echo ("<div class='divSuccess'>");
+    echo ("<button onclick='removeParent(this)'>X</button>");
+    echo ("<span>");
+    echo (trans($am_msg_suc));
+    echo ("</span>");
+    echo ("</div>");
 }
 echo '</div>';
 ?>

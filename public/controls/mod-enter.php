@@ -4,21 +4,19 @@ require_once "./common.php";
 $_SESSION['am_logged'] = 'no';
 
 if (empty_param('name') || empty_param('pass')) {
-  $am_msg_err = "You must inform the name and pass.";
-  include "./enter.php";
-  die();
+    err_view("You must inform the name and pass.");
 }
 
 $sql = 'SELECT id, bus FROM users WHERE name LIKE $1 AND epwd LIKE md5($2)';
 $data = lazy_fetch($sql, param('name'), param('pass'));
 if ($data == NULL) {
-  include "./enter.php";
-  die();
+    include "./enter.php";
+    die();
 }
 if (count($data) == 0) {
-  $am_msg_err = "Could not find your user or pass.";
-  include "./enter.php";
-  die();
+    $am_msg_err = "Could not find your user or pass.";
+    include "./enter.php";
+    die();
 }
 
 $_SESSION['am_logged'] = 'yes';
@@ -27,10 +25,10 @@ $_SESSION['am_usr_id'] = $data[0]['id'];
 $_SESSION['am_usr_name'] = param('name');
 
 if (isset($_SESSION['redirect'])) {
-  $am_to_point = $_SESSION['redirect'];
-  unset($_SESSION['redirect']);
+    $am_to_point = $_SESSION['redirect'];
+    unset($_SESSION['redirect']);
 } else if (!isset($am_to_point)) {
-  $am_to_point = 'desk.php';
+    $am_to_point = 'desk.php';
 }
 header("Location: " . $am_to_point);
 die();

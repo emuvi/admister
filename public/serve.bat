@@ -1,2 +1,2 @@
-@ECHO OFF
-php -S localhost:5488
+@echo off
+call php -S localhost:5488

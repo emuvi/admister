@@ -1,7 +1,7 @@
 <?php
 
 require_once "./common.php";
-checker('Desk', 'desk');
+must_check('Desk', 'desk');
 
 $sql_desk = 'SELECT name, icon, link FROM menus';
 $data = lazy_fetch($sql_desk);

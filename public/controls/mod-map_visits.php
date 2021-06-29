@@ -26,8 +26,7 @@ if (!isset($_POST['notes'])) {
 }
 
 $query = <<<EOQ
-INSERT INTO map_visits
-(bus, usr, code, name, phone, address, contact, notes)
+INSERT INTO map_visits (bus, usr, code, name, phone, address, contact, notes)
 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 EOQ;
 $params = array($_SESSION['am_bus'], $_SESSION['am_usr'], $_POST['code'],
@@ -39,12 +38,3 @@ if (!$result) {
 } else {
     $am_msg_suc = trans("Visit to %s registered.", $_POST['name']);
 }
-
-$_POST['code'] = "";
-$_POST['name'] = "";
-$_POST['phone'] = "";
-$_POST['address'] = "";
-$_POST['contact'] = "";
-$_POST['notes'] = "";
-
-include "map_visits-vue.php";
