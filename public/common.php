@@ -31,27 +31,20 @@ function empty_param($name)
     return empty($am_params[$name]);
 }
 
-// Translate functions
-
-function trans($format, ...$params)
+function must_param($name)
 {
-    global $am_dblink;
-    $translated = $format;
-    if ($am_dblink) {
-        $translated = NULL;
-        $sql_select = 'SELECT done FROM translates WHERE lang LIKE $1 AND seed LIKE $2';
-        $result = pg_query_params($am_dblink, $sql_select, array('ptbr', $format));
-        if ($result && $row = pg_fetch_array($result)) {
-            $translated = $row['done'];
-        } else {
-            $sql_insert = 'INSERT INTO translates (lang, seed) VALUES ($1, $2)';
-            pg_query_params($am_dblink, $sql_insert, array('ptbr', $format));
-        }
-        if (!$translated) {
-            $translated = $format;
-        }
+    if (!has_param($name)) {
+        err_die('You must inform parameter: "%s".', $name);
     }
-    return sprintf($translated, ...$params);
+    return param($name);
+}
+
+function must_sized_param($name)
+{
+    if (empty_param($name)) {
+        err_die('You must inform a sized value for parameter: "%s".', $name);
+    }
+    return param($name);
 }
 
 // View Response functions
@@ -71,31 +64,34 @@ function get_error()
 }
 
 /** Translates and sets the success message. */
-function set_success($message)
+function set_success($message, ...$params)
 {
     global $am_msg_suc;
     if (empty($am_msg_suc)) {
-        $am_msg_suc = trans($message);
+        $am_msg_suc = trans($message, $params);
     } else {
-        $am_msg_suc = trans($message) . ' ' . $am_msg_suc;
+        $am_msg_suc = trans($message, $params) . ' ' . $am_msg_suc;
     }
 }
 
 /** Translates and sets the error message. */
-function set_error($message)
+function set_error($message, ...$params)
 {
+    if (empty($message)) {
+        return;
+    }
     global $am_msg_err;
     if (empty($am_msg_err)) {
-        $am_msg_err = trans($message);
+        $am_msg_err = trans($message, $params);
     } else {
-        $am_msg_err = trans($message) . ' ' . $am_msg_err;
+        $am_msg_err = trans($message, $params) . ' ' . $am_msg_err;
     }
 }
 
 /** Sets the translation of message, includes the error view and dies. */
-function err_view($message)
+function err_view($message, ...$params)
 {
-    set_error($message);
+    set_error($message, $params);
     include './error.php';
     die();
 }
@@ -119,10 +115,10 @@ function err_data_die($data)
 }
 
 /** Sets response to 500 and prints the translation from the message. */
-function err_echo($message)
+function err_echo($message, ...$params)
 {
     http_response_code(500);
-    echo trans($message);
+    echo trans($message, $params);
 }
 
 /** Sets response to 500 and prints the translated error message. */
@@ -133,10 +129,10 @@ function err_echo_get()
 }
 
 /** Sets response to 500, prints the translation from the message and dies. */
-function err_die($message)
+function err_die($message, ...$params)
 {
     http_response_code(500);
-    die(trans($message));
+    die(trans($message, $params));
 }
 
 /** Sets response to 500, prints the translated error message and dies. */
@@ -163,10 +159,10 @@ function ok_data_die($data)
 }
 
 /** Sets response to 200 and prints the translation from the message. */
-function ok_echo($message)
+function ok_echo($message, ...$params)
 {
     http_response_code(200);
-    echo trans($message);
+    echo trans($message, $params);
 }
 
 /** Sets response to 200 and prints the translated success message. */
@@ -177,10 +173,10 @@ function ok_echo_get()
 }
 
 /** Sets response to 200, prints the translation from the message and dies. */
-function ok_die($message)
+function ok_die($message, ...$params)
 {
     http_response_code(200);
-    die(trans($message));
+    die(trans($message, $params));
 }
 
 /** Sets response to 200, prints the translated success message and dies. */
@@ -252,6 +248,29 @@ function lazy_fetch($sql, ...$params)
         array_push($data, $row);
     }
     return $data;
+}
+
+// Translate functions
+
+function trans($format, ...$params)
+{
+    global $am_dblink;
+    $translated = $format;
+    if ($am_dblink) {
+        $translated = NULL;
+        $sql_select = 'SELECT done FROM translates WHERE lang LIKE $1 AND seed LIKE $2';
+        $result = pg_query_params($am_dblink, $sql_select, array('ptbr', $format));
+        if ($result && $row = pg_fetch_array($result)) {
+            $translated = $row['done'];
+        } else {
+            $sql_insert = 'INSERT INTO translates (lang, seed) VALUES ($1, $2)';
+            pg_query_params($am_dblink, $sql_insert, array('ptbr', $format));
+        }
+        if (!$translated) {
+            $translated = $format;
+        }
+    }
+    return sprintf($translated, ...$params);
 }
 
 // Security functions

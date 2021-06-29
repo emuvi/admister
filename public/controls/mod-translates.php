@@ -1,66 +1,38 @@
 <?php
 
-function am_api_GetNeedLangs()
+function am_api_GetLanguagesNeed()
 {
-    global $am_dblink;
-    $data = array();
     $query = "SELECT DISTINCT(lang) FROM translates WHERE done IS NULL";
-    $result = @pg_query($am_dblink, $query);
-    if ($result) {
-        while ($row = pg_fetch_array($result)) {
-            array_push($data, $row['lang']);
-        }
-        ok_data_echo($data);
-    } else {
-        err_die(pg_last_error($am_dblink));
-    }
+    $data = must_fetch($query);
+    ok_data_echo($data);
 }
 
-function am_api_GetNeedTrans()
+function am_api_GetTranslatesNeed()
 {
-    global $am_dblink;
-    $data = array();
     $query = <<<SQL
       SELECT seed FROM translates
       WHERE lang = $1 AND done IS NULL
       ORDER BY random() LIMIT 3
       SQL;
-    $params = array($_POST['language']);
-    $result = pg_query_params($am_dblink, $query, $params);
-    if ($result) {
-        while ($row = pg_fetch_array($result)) {
-            array_push($data, $row['seed']);
-        }
-        ok_data_echo($data);
-    } else {
-        err_die(pg_last_error($am_dblink));
-    }
+    $params = array(must_param('language'));
+    $data = must_fetch($query, $params);
+    ok_data_echo($data);
 }
 
-function am_api_SaveTrans()
+function am_api_PutTranslate()
 {
-    global $am_dblink;
     $query = "UPDATE translates SET done = $3 WHERE lang = $1 AND seed = $2";
-    $params = array($_POST['lang'], $_POST['seed'], $_POST['done']);
-    $result = @pg_query_params($am_dblink, $query, $params);
-    if ($result) {
-        ok_echo("Translations saved successfully.");
-    } else {
-        err_die(pg_last_error($am_dblink));
-    }
+    $params = array(must_param('lang'), must_param('seed'), must_param('done'));
+    must_query($query, $params);
+    ok_echo("Translation saved successfully.");
 }
 
-function am_api_RemoveNeed()
+function am_api_DelTranslate()
 {
-    global $am_dblink;
     $query = "DELETE FROM translates WHERE lang = $1 AND seed = $2";
-    $params = array($_POST['lang'], $_POST['seed']);
-    $result = @pg_query_params($am_dblink, $query, $params);
-    if ($result) {
-        ok_echo("Translation needed removed successfully.");
-    } else {
-        err_die(pg_last_error($am_dblink));
-    }
+    $params = array(must_param('lang'), must_param('seed'));
+    must_query($query, $params);
+    ok_echo("Translation needed removed successfully.");
 }
 
 require_once './controls/run-api.php';

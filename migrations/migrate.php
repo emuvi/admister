@@ -5,20 +5,20 @@ require_once './common.php';
 /** Creates the table to keep track of the migrations already done in the database. */
 function migrate_start()
 {
-    if (!query("CREATE TABLE IF NOT EXISTS migrations ( "
-        . "id SERIAL NOT NULL PRIMARY KEY, "
-        . "name VARCHAR(90) NOT NULL, "
-        . "batch INTEGER NOT NULL, "
-        . "UNIQUE (name))")) {
-        die("Could not create migrations table.");
+    if (!query('master', 'CREATE TABLE IF NOT EXISTS migrations ( '
+        . 'id SERIAL NOT NULL PRIMARY KEY, '
+        . 'name VARCHAR(90) NOT NULL, '
+        . 'batch INTEGER NOT NULL, '
+        . 'UNIQUE (name))')) {
+        die('Could not create migrations table.');
     }
 }
 
 /** Drops the table that keeps track of the migrations already done in the database. */
 function migrate_stop()
 {
-    if (!query("DROP TABLE IF EXISTS migrations")) {
-        die("Could not drop migrations table.");
+    if (!query('master', 'DROP TABLE IF EXISTS migrations')) {
+        die('Could not drop migrations table.');
     }
 }
 
@@ -28,22 +28,22 @@ function migrate_run()
     global $argc, $argv;
     for ($index = 0; $index < $argc; $index++) {
         switch ($argv[$index]) {
-            case "start":
+            case 'start':
                 migrate_start();
                 break;
-            case "stop":
+            case 'stop':
                 migrate_stop();
                 break;
-            case "create":
+            case 'create':
                 require_once './migrate_create.php';
                 migrate_create($index);
                 $index++;
                 break;
-            case "advance":
+            case 'advance':
                 require_once './migrate_advance.php';
                 migrate_advance();
                 break;
-            case "retreat":
+            case 'retreat':
                 require_once './migrate_retreat.php';
                 migrate_retreat();
                 break;

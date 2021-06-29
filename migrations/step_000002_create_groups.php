@@ -4,12 +4,13 @@ require_once './common.php';
 
 function step_000002_create_groups_make()
 {
-    return query('CREATE TABLE groups ( '
+    return query('master', 'CREATE TABLE groups ( '
                  . 'id SERIAL NOT NULL PRIMARY KEY, '
-                 . 'name VARCHAR(40) NOT NULL)');
+                 . 'name VARCHAR(40) NOT NULL, '
+                 . 'link VARCHAR(210) NOT NULL)');
 }
 
 function step_000002_create_groups_undo()
 {
-    return query('DROP TABLE groups');
+    return query('master', 'DROP TABLE groups');
 }

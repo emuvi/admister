@@ -1,22 +1,17 @@
 <?php
 
-require_once "./common.php";
 $_SESSION['am_logged'] = 'no';
 
 if (empty_param('name') || empty_param('pass')) {
     err_view("You must inform the name and pass.");
 }
-
 $sql = 'SELECT id, bus FROM users WHERE name LIKE $1 AND epwd LIKE md5($2)';
-$data = lazy_fetch($sql, param('name'), param('pass'));
+$data = lazy_fetch($sql, must_sized_param('name'), must_sized_param('pass'));
 if ($data == NULL) {
-    include "./enter.php";
-    die();
+    err_view("");
 }
 if (count($data) == 0) {
-    $am_msg_err = "Could not find your user or pass.";
-    include "./enter.php";
-    die();
+    err_view('Could not find your user or pass.');
 }
 
 $_SESSION['am_logged'] = 'yes';

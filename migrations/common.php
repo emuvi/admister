@@ -1,14 +1,35 @@
 <?php
 
-$db_link = pg_connect(getenv('CONN_ADMISTER'));
-if (!$db_link) {
-    die("Could not connect to the database.");
+class Base  {
+    private $connection;
+    private $resource;
+
+    public function __construct($connection) {
+        $this->connection = $connection;
+        $this->resource = null;
+    }
+
+    public function link() {
+        if ($this->resource == null) {
+            $this->resource = pg_connect($this->connection);
+            if (!$this->resource) {
+                die('Could not connect to the database: ' . $this->name);
+            }
+        }
+        return $this->resource;
+    }
 }
 
+$bases = [
+    'master' => new Base(getenv('CONN_ADMISTER'))
+];
+
+
 /** Executes a SQL query on the AdMister database. */
-function query($sql, ...$params)
+function query($base, $sql, ...$params)
 {
-    global $db_link, $msg_err;
+    global $bases, $msg_err;
+    $db_link = $bases[$base]->link();
     $result = NULL;
     if (sizeof($params) == 0) {
         $result = pg_query($db_link, $sql);
@@ -22,9 +43,10 @@ function query($sql, ...$params)
 }
 
 /** Returns an array with all the results from the sql query. */
-function fetch($sql, ...$params)
+function fetch($base, $sql, ...$params)
 {
-    global $db_link, $msg_err;
+    global $bases, $msg_err;
+    $db_link = $bases[$base]->link();
     $result = NULL;
     if (sizeof($params) == 0) {
         $result = pg_query($db_link, $sql);
@@ -43,9 +65,9 @@ function fetch($sql, ...$params)
 }
 
 /** Returns the value of the first row and column ou the default. */
-function fetch_once($default, $sql, ...$params)
+function fetch_once($default, $base, $sql, ...$params)
 {
-    $data = fetch($sql, ...$params);
+    $data = fetch($base, $sql, ...$params);
     if ($data && $data[0] && $data[0][0]) {
         return $data[0][0];
     }
