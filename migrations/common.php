@@ -21,7 +21,7 @@ class Base  {
 }
 
 $bases = [
-    'master' => new Base(getenv('CONN_ADMISTER'))
+    'main' => new Base(getenv('ADMISTER_MAIN_LINK'))
 ];
 
 

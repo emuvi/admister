@@ -188,9 +188,24 @@ function ok_die_get()
 
 // Database functions
 
-$am_dblink = pg_connect(getenv('CONN_ADMISTER'));
-if (!$am_dblink) {
-    err_die("Could not connect to the database.");
+$am_main_link = NULL;
+$am_user_link = NULL;
+
+function get_main_link()
+{
+    global $am_main_link;
+    if (!$am_main_link) {
+        $am_main_link = pg_connect(getenv('ADMISTER_MAIN_LINK'));
+    }
+    if (!$am_main_link) {
+        err_die("Could not connect to the main database.");
+    }
+    return $am_main_link;
+}
+
+function get_user_link()
+{
+    // TODO
 }
 
 /** Runs the query, returns the result if ok or dies with the error message if not. */
@@ -206,15 +221,15 @@ function must_query($sql, ...$params)
 /** Runs the query, returns the result if ok or sets the error message if not. */
 function lazy_query($sql, ...$params)
 {
-    global $am_dblink;
+    global $am_main_link;
     $result = NULL;
     if (sizeof($params) == 0) {
-        $result = pg_query($am_dblink, $sql);
+        $result = pg_query($am_main_link, $sql);
     } else {
-        $result = pg_query_params($am_dblink, $sql, $params);
+        $result = pg_query_params($am_main_link, $sql, $params);
     }
     if (!$result) {
-        set_error(pg_last_error($am_dblink));
+        set_error(pg_last_error($am_main_link));
     }
     return $result;
 }
@@ -232,15 +247,15 @@ function must_fetch($sql, ...$params)
 /** Fetch the query, returns the array if ok or sets the error message if not. */
 function lazy_fetch($sql, ...$params)
 {
-    global $am_dblink;
+    global $am_main_link;
     $result = NULL;
     if (sizeof($params) == 0) {
-        $result = pg_query($am_dblink, $sql);
+        $result = pg_query($am_main_link, $sql);
     } else {
-        $result = pg_query_params($am_dblink, $sql, $params);
+        $result = pg_query_params($am_main_link, $sql, $params);
     }
     if (!$result) {
-        set_error(pg_last_error($am_dblink));
+        set_error(pg_last_error($am_main_link));
         return NULL;
     }
     $data = array();
@@ -254,17 +269,17 @@ function lazy_fetch($sql, ...$params)
 
 function trans($format, ...$params)
 {
-    global $am_dblink;
+    global $am_main_link;
     $translated = $format;
-    if ($am_dblink) {
+    if ($am_main_link) {
         $translated = NULL;
         $sql_select = 'SELECT done FROM translates WHERE lang LIKE $1 AND seed LIKE $2';
-        $result = pg_query_params($am_dblink, $sql_select, array('ptbr', $format));
+        $result = pg_query_params($am_main_link, $sql_select, array('pt-br', $format));
         if ($result && $row = pg_fetch_array($result)) {
             $translated = $row['done'];
         } else {
             $sql_insert = 'INSERT INTO translates (lang, seed) VALUES ($1, $2)';
-            pg_query_params($am_dblink, $sql_insert, array('ptbr', $format));
+            pg_query_params($am_main_link, $sql_insert, array('pt-br', $format));
         }
         if (!$translated) {
             $translated = $format;

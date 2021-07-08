@@ -4,7 +4,7 @@ require_once './common.php';
 
 function step_000001_create_translates_make()
 {
-    return query('master', 'CREATE TABLE translates ( '
+    return query('main', 'CREATE TABLE translates ( '
         . 'lang VARCHAR(6) NOT NULL, '
         . 'seed VARCHAR NOT NULL, '
         . 'done VARCHAR, '
@@ -13,5 +13,5 @@ function step_000001_create_translates_make()
 
 function step_000001_create_translates_undo()
 {
-    return query('master', 'DROP TABLE translates');
+    return query('main', 'DROP TABLE translates');
 }

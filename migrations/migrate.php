@@ -5,7 +5,7 @@ require_once './common.php';
 /** Creates the table to keep track of the migrations already done in the database. */
 function migrate_start()
 {
-    if (!query('master', 'CREATE TABLE IF NOT EXISTS migrations ( '
+    if (!query('main', 'CREATE TABLE IF NOT EXISTS migrations ( '
         . 'id SERIAL NOT NULL PRIMARY KEY, '
         . 'name VARCHAR(90) NOT NULL, '
         . 'batch INTEGER NOT NULL, '
@@ -17,12 +17,12 @@ function migrate_start()
 /** Drops the table that keeps track of the migrations already done in the database. */
 function migrate_stop()
 {
-    if (!query('master', 'DROP TABLE IF EXISTS migrations')) {
+    if (!query('main', 'DROP TABLE IF EXISTS migrations')) {
         die('Could not drop migrations table.');
     }
 }
 
-/** Parses the commad line parameters and call the respective functions. */
+/** Parses the command line parameters and call the respective functions. */
 function migrate_run()
 {
     global $argc, $argv;

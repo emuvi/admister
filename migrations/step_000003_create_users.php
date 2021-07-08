@@ -4,7 +4,7 @@ require_once './common.php';
 
 function step_000003_create_users_make()
 {
-    return query('master', 'CREATE TABLE users ( '
+    return query('main', 'CREATE TABLE users ( '
                  . 'id SERIAL NOT NULL PRIMARY KEY, '
                  . 'name VARCHAR(40) NOT NULL, '
                  . 'pass VARCHAR(40) NOT NULL, '
@@ -13,5 +13,5 @@ function step_000003_create_users_make()
 
 function step_000003_create_users_undo()
 {
-    return query('master', 'DROP TABLE users');
+    return query('main', 'DROP TABLE users');
 }
