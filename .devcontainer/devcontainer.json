@@ -1,0 +1,16 @@
+{
+	"name": "Existing Dockerfile",
+	"context": "..",
+	"dockerFile": "../Dockerfile",
+	"settings": {},
+	"extensions": [
+		"streetsidesoftware.code-spell-checker",
+		"felixfbecker.php-pack",
+		"kokororin.vscode-phpfmt",
+		"rifi2k.format-html-in-php"
+	],
+	"containerEnv": {
+		"ADMISTER_MAIN_LINK": "${localEnv:ADMISTER_MAIN_LINK}"
+	},
+	"forwardPorts": [5488]
+}
