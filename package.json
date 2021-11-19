@@ -1,7 +1,7 @@
 {
   "name": "admister",
   "version": "0.1.0",
-  "description": "AdMister - Administration Craft - An interface to launch all other Pointel administration applications running on the Qinpel platform.",
+  "description": "AdMister - Administration Craft - An manager interface to launch a series of administration applications running on the Qinpel platform.",
   "main": "./build/main.js",
   "types": "./types/main.d.ts",
   "scripts": {
