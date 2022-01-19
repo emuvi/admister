@@ -4,9 +4,6 @@
   "description": "AdMister ( Administration Craft ) is a manager application to launch all the administration applications of the Pointel platform.",
   "main": "./build/main.js",
   "types": "./types/main.d.ts",
-  "scripts": {
-    "start": "bash -v test.sh"
-  },
   "keywords": [],
   "author": "Éverton M. Vieira",
   "license": "LGPL-3.0-only",
