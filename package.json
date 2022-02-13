@@ -1,12 +1,14 @@
 {
   "name": "admister",
-  "version": "0.1.0",
+  "displayName": "AdMister",
   "description": "AdMister ( Administration Craft ) is a manager for the Qinpel user applications to launch all the administration tools of the Pointel platform.",
-  "main": "./build/main.js",
-  "types": "./types/main.d.ts",
   "keywords": [],
+  "repository": "https://github.com/emuvi/admister",
   "author": "Éverton M. Vieira",
   "license": "LGPL-3.0-only",
+  "version": "0.1.0",
+  "main": "./build/main.js",
+  "types": "./types/main.d.ts",
   "dependencies": {
     "qinpel-cps": "file:../qinpel-cps",
     "qinpel-res": "file:../qinpel-res"
