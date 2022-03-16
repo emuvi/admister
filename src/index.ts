@@ -1,14 +1,14 @@
-import { QinColumn, QinLabel } from "qinpel-cps"
+import { QinPanel } from "qinpel-cps";
 
-class AdMister extends QinColumn {
-
-    private qinHello: QinLabel = new QinLabel("Hello, AdMister!");
-
-    public constructor() {
-        super();
-        this.qinHello.install(this);
-    }
-
+class AdMister extends QinPanel {
+  public constructor() {
+    super();
+    const qinDesk = this.qinpel().manager.newDesk(
+      this.qinpel(),
+      (manifest) => manifest.group == "admister"
+    );
+    this.getMain().appendChild(qinDesk.getMain());
+  }
 }
 
 new AdMister().putAsBody();

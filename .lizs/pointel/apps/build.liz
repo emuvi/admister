@@ -1,0 +1,27 @@
+#!/bin/liz
+
+print("Building...")
+
+if Liz.has("pre-build.liz") then
+    print("Running pre build...")
+    Liz.run_wd("pre-build.liz")
+    print("Done pre build")
+end
+
+if Liz.has("src/all.ts") then Liz.run("mkall") end
+if Liz.is_win() then
+    Ext = ".cmd"
+else
+    Ext = ""
+end
+Liz.cmd("npm" .. Ext, {"install"})
+print("Done install dependencies.")
+Liz.cmd("tsc" .. Ext, {"-p", "tsconfig.json"})
+
+if Liz.has("pos-build.liz") then 
+    print("Running post build...")
+    Liz.run_wd("pos-build.liz")
+    print("Done post build")
+end
+
+print("Done build application")
