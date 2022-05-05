@@ -28,17 +28,19 @@ if Liz.is_dir("public") then
         end
     end
 
-    local dev_path = Liz.path_parent_find(wd, "Devs")
-    if dev_path == "" then
-        print("Could not found the Devs path.")
-        return
+    if Liz.is_file("public/index.html") then
+        local dev_path = Liz.path_parent_find(wd, "Devs")
+        if dev_path == "" then
+            print("Could not found the Devs path.")
+            return
+        end
+        local tst_path = Liz.path_join(dev_path, "Test")
+        local app_dest = Liz.path_join(tst_path, "app")
+        local pro_dest = Liz.path_join(app_dest, project)
+        Liz.rm(pro_dest)
+        Liz.mkdir(pro_dest)
+        Liz.cp("public", pro_dest)
     end
-    local tst_path = Liz.path_join(dev_path, "Test")
-    local app_dest = Liz.path_join(tst_path, "app")
-    local pro_dest = Liz.path_join(app_dest, project)
-    Liz.rm(pro_dest)
-    Liz.mkdir(pro_dest)
-    Liz.cp("public", pro_dest)
 end
 
 if Liz.has("pos-test.liz") then
