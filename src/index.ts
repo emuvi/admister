@@ -9,7 +9,7 @@ class AdMister extends QinPanel {
       addsCfgs: (manifest) =>
         [this.qinpel.our.names.QinBases as string].indexOf(manifest.title) > -1,
     });
-    this.getMain().appendChild(qinDesk.getMain());
+    this.castedQine().appendChild(qinDesk.getMain());
   }
 }
 
