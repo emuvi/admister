@@ -14,11 +14,10 @@ if Liz.is_win() then
 else
     Ext = ""
 end
-Liz.cmd("npm" .. Ext, {"install"})
-print("Done install dependencies.")
-Liz.cmd("tsc" .. Ext, {"-p", "tsconfig.json"})
+Liz.cmd("tsc" .. Ext, { "-p", "tsconfig.json" })
+print("Done compile sources")
 
-if Liz.has("pos-build.liz") then 
+if Liz.has("pos-build.liz") then
     print("Running post build...")
     Liz.run_wd("pos-build.liz")
     print("Done post build")
